@@ -14,13 +14,13 @@
 
 (deftest test-hook-executes
   (is (= 1
-         (hooked/hook ::this-gets-set 5))))
+         (hooked/call ::this-gets-set 5))))
 
 (deftest unset-hook-call-doesnt-throw
-  (hooked/hook ::this-does-not-get-set nil))
+  (hooked/call ::this-does-not-get-set nil))
 
 (deftest validates-arg
   (is (thrown?
        #?(:clj clojure.lang.ExceptionInfo
           :cljs cljs.core/ExceptionInfo)
-       (hooked/hook ::this-gets-set "not an int"))))
+       (hooked/call ::this-gets-set "not an int"))))

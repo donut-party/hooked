@@ -11,8 +11,8 @@
   (swap! hooks assoc hook-name {:docstring docstring
                                 :arg-schema arg-schema}))
 
-(defn hook
-  "call a hook if it's defined"
+(defn call
+  "call a hook fn if it's defined"
   [hook-name arg]
   (let [this-hook (hook-name @hooks)]
     (when-not this-hook
