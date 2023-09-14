@@ -9,7 +9,9 @@ wayside. But not this one.
 
 hooked introduces an extensibility mechanism for optional side effects. It aids
 in creating libraries that encapsulate both a workflow, and side effects to
-perform at specified points in the workflow.
+perform at specified points in the workflow. The big goal is to make it possible
+to create an ecosystem of libraries and plugins for common tasks like user
+signup / auth.
 
 An example workflow is handling a user signup for a web app, where the core
 logic includes validating the signup and sending the appropriate response. This
