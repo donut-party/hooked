@@ -38,8 +38,8 @@
    (def call call*))
 
 (defn set-hook-fn!
- "installs a function to call when the hook gets called"
- [hook-name f]
- (when-not (hook-name @hooks)
-   (throw (ex-info "hook not defined" {:hook-name hook-name})))
- (swap! hooks assoc-in [hook-name :f] f))
+  "installs a function to call when the hook gets called"
+  [hook-name f]
+  (when-not (hook-name @hooks)
+    (throw (ex-info "hook not defined" {:hook-name hook-name})))
+  (swap! hooks assoc-in [hook-name :f] f))
