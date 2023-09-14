@@ -7,12 +7,19 @@ wayside. But not this one.
 
 ## What _is_ this?!?
 
-hooked is an extensibility mechanism for optional side effects. You might use
-this in libraries that encapsulate control flows so that you can give library
-users a way to define additional behavior at each branch.
+hooked introduces an extensibility mechanism for optional side effects. It aids
+in creating libraries that encapsulate both a workflow, and side effects to
+perform at specified points in the workflow.
 
-The motivating example for this is writing a user authentication library that
-can be extended with custom behavior for each possible outcome of a user action.
+An example workflow is handling a user signup for a web app, where the core
+logic includes validating the signup and sending the appropriate response. This
+core logic can be written as a pure function, but developers typically also want
+to perform side effects like logging failures and sending confirmation emails on
+signup success. But if you're writing a user signup handler as part of a library
+meant to be used by others, you can't bake those side effects into the library
+itself. You need to offer extensibility somehow, and that's where hooked comes
+in.
+
 Here's an example that shows a couple hooks being defined for a signup handler,
 as well as the hooks being called:
 
@@ -107,8 +114,56 @@ happens.
 
 ## Why?
 
-- documentation
-- flat
-- optional
-- not mixing extension with actual arguments
-- avoiding builders
+There are other valid ways to provide this kind of functionality, and hooked
+isn't strictly necessary to provide it. However, my hope is that this approach
+helps you achieve this kind of functionality in a way that's both clear within
+your code, and clear to consumers of your library.
+
+Let's look at other approaches and how they might be less than ideal:
+
+### Pass functions in
+
+You could write functions that take arguments for optional hooks, something like
+this:
+
+``` clojure
+(defn example-pass-functions-in
+  [{:keys [hook-1 hook-2]}]
+  (if some-predicate
+    (do
+      (when hook-1 (hook-1 args))
+      return-val)
+    (do
+      (when hook-2 (hook-2 args))
+      return-val)))
+```
+
+There are two annoying things about this approach:
+
+- You have to change your function to accept arguments that aren't actually
+  related to its core behavior
+- You always have to check whether the hook exists to call it
+
+### Use builders
+
+Your library could include builder functions, capturing your hooks in a closure
+and returning a new function:
+
+``` clojure
+(defn example-build-fn
+  [hook-1 hook-2]
+  (fn []
+    (if some-predicate
+      (do
+        (when hook-1 (hook-1 args))
+        return-val)
+      (do
+        (when hook-2 (hook-2 args))
+        return-val))))
+```
+
+But ew
+
+### Use dynamic vars
+
+TODO
