@@ -24,3 +24,11 @@
        #?(:clj clojure.lang.ExceptionInfo
           :cljs cljs.core/ExceptionInfo)
        (hooked/call ::this-gets-set "not an int"))))
+
+(comment
+  ;; still don't know how to do this
+  (deftest throws-on-eval
+    (is (thrown?
+         #?(:clj clojure.lang.ExceptionInfo
+            :cljs cljs.core/ExceptionInfo)
+         (hooked/call ::undefined "not an int")))))
