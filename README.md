@@ -4,3 +4,7 @@
 
 Clojure's missing hooks library. Every other hook library has fallen by the
 wayside. But not this one.
+
+## What _is_ this?!?
+
+hooked is an extensibility mechanism 
