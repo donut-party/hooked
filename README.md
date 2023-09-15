@@ -168,4 +168,37 @@ But ew
 
 ### Use dynamic vars
 
-TODO
+Here's what the dynamic var version of this might look like:
+
+``` clojure
+(def ^:dynamic *hook-1*)
+(def ^:dynamic *hook-2*)
+
+(defn example-dynamic-vars
+  []
+  (if some-predicate
+    (do
+      (when (bound? *hook-1*) (*hook-1* args))
+      return-val)
+    (do
+      (when (bound? *hook-2*) (*hook-2* args))
+      return-val)))
+```
+
+Dynamic vars have just never struck me as being intended for this purpose The
+behavior you're wanting to specify isn't "dynamic" in the way that I think is
+meant for dynamic vars. What we're talking about here is extending a library
+with app-specific behavior, and that behavior is something you only want to
+define once; it's not something that should change as the application runs.
+
+On a practical level, you'll need to bind those vars not just when constructing
+the `-main` function for your application, but also in all the relevant tests.
+This is something that you could easily forget to do, leading to frustrating
+debugging sessions.
+
+Finally, when writing your library you'll need write `(when (bound? *hook*)
+...)` every place you want to use the hook, or else introduce a macro for that.
+
+The optionality of hook behavior is a core constraint for them, and I think it
+makes sense to introduce a little abstraction that suports that directly and
+that makes it clear to everyone what's happening.
