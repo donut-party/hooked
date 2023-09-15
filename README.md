@@ -185,7 +185,7 @@ Here's what the dynamic var version of this might look like:
       return-val)))
 ```
 
-Dynamic vars have just never struck me as being intended for this purpose The
+Dynamic vars have just never struck me as being intended for this purpose. The
 behavior you're wanting to specify isn't "dynamic" in the way that I think is
 meant for dynamic vars. What we're talking about here is extending a library
 with app-specific behavior, and that behavior is something you only want to
