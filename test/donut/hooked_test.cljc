@@ -10,7 +10,7 @@
 (hooked/defhook ::this-does-not-get-set
   "testing this thing")
 
-(hooked/set-hook-fn! ::this-gets-set (fn [_] 1))
+(hooked/register-handler ::this-gets-set (fn [_] 1))
 
 (deftest test-hook-executes
   (is (= 1

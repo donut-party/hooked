@@ -48,10 +48,10 @@ as well as the hooks being called:
 ```
 
 To get `(hooked/call ::signup.validation-errors (assoc req :errors errors))` to
-actually do something, you have to set the hook function:
+actually do something, you have to set the handler:
 
 ``` clojure
-(hooked/set-hook-fn! ::signup.validation-errors
+(hooked/register-handler ::signup.validation-errors
   (fn [{:keys [errors]}]
     (log/info :signup-validation-errors {:errors errors})))
 ```
@@ -59,8 +59,8 @@ actually do something, you have to set the hook function:
 If your app includes the above code, then your app will log every time a user's
 signup fails because of validation errors.
 
-If you don't set a hook function, then nothing happens when that hook is called.
-For example, the `::signup.signup-success` hook function isn't set, so
+If you don't set a handler, then nothing happens when that hook is called.
+For example, the `::signup.signup-success` handler isn't set, so
 `(hooked/call ::signup.signup-success (assoc req :user user))` doesn't do
 anything.
 
@@ -69,7 +69,7 @@ anything.
 By using:
 
 - `defhook`
-- `set-hook-fn!`
+- `register-handler`
 - `call`
 
 ### `defhook`
@@ -88,12 +88,12 @@ Hooks are inherently wibbly-wobbly, prone to confusion and abuse. A docstring
 can help to alleviate that a little. That's why they're required.
 
 If you define a malli schema, it's used to validate the argument sent to the
-hook function. Hook functions take one and only one argument.
+handler. handlers take one and only one argument.
 
-### `set-hook-fn!`
+### `register-handler`
 
 ``` clojure
-(hooked/set-hook-fn! ::my-hook-name
+(hooked/register-handler ::my-hook-name
   (fn [x] (do-stuff x)))
 ```
 
@@ -109,9 +109,9 @@ customize the behavior of a library.
 (hooked/call ::my-hook-name {:x :y})
 ```
 
-Call takes the hook name and the argument to send to the hook function. If the
+Call takes the hook name and the argument to send to the handler. If the
 hook hasn't been defined with `defhook`, then it will throw. If the hook is
-defined but the hook function hasn't been set with `set-hook-fn!`, then nothing
+defined but the handler hasn't been set with `register-handler`, then nothing
 happens.
 
 ## Why?
