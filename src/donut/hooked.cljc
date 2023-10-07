@@ -18,15 +18,15 @@
   (let [this-hook (hook-name @hook-registry)]
     (when-not this-hook
       (throw (ex-info "hook not defined" {:hook-name hook-name})))
-    (let [{:keys [arg-schema f]} this-hook]
+    (let [{:keys [arg-schema handler]} this-hook]
       (when-let [explanation (and arg-schema (m/explain arg-schema arg))]
         (throw (ex-info "invalid argument for hook"
                         {:hook-name hook-name
                          :spec-explain-human (me/humanize explanation)
                          :spex-explain explanation})))
       ;; TODO malli instrument the return val, enabled by global flag
-      (when f
-        (f arg)))))
+      (when handler
+        (handler arg)))))
 
 ;; TODO figure out how to do this with cljs
 #?(:clj
