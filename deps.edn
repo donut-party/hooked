@@ -2,6 +2,11 @@
  :deps  {org.clojure/clojure {:mvn/version "1.10.3"}
          metosin/malli       {:mvn/version "0.11.0"}}
 
+ :donut/lib {:name           party.donut/hooked
+             :description    "an extensibility mechanism for optional side effects"
+             :github         "donut-party/hooked"
+             :version-prefix "0.0"}
+
  :aliases
  {:dev
   {:extra-deps  {ring/ring {:mvn/version "1.9.4"}}
@@ -21,6 +26,6 @@
    :exec-fn     cljs-test-runner.main/-main}
 
   :build
-  {:deps       {io.github.seancorfield/build-clj
-                {:git/tag "v0.6.6" :git/sha "171d5f1"}}
-   :ns-default build}}}
+  {:deps       {io.github.donut-party/framework-build
+                {:git/sha "912e0b0ffc914cf1b5824650268307062d92e40c"}}
+   :ns-default donut.build}}}
