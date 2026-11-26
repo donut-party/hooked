@@ -27,5 +27,5 @@
 
   :build
   {:deps       {io.github.donut-party/framework-build
-                {:git/sha "912e0b0ffc914cf1b5824650268307062d92e40c"}}
+                {:git/tag "v1" :git/sha "912e0b0"}}
    :ns-default donut.build}}}

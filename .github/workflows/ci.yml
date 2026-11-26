@@ -1,0 +1,14 @@
+name: CI
+
+on:
+  push:
+    branches: [main, release]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: donut-party/shared-workflows/.github/workflows/clojure-lib.yml@v1
+    secrets: inherit
+    with:
+      test-cljs: true
